@@ -1,10 +1,13 @@
 name: 🚀 Deploy Website
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+  # trigger if pushed to main
+  # push:
+  #   branches: [ "master" ]
+  # pull_request:
+  #   branches: [ "master" ]
+  # manual trigger
+  workflow_dispatch:
 
 jobs:
   web-deploy:
