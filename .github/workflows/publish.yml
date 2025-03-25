@@ -10,8 +10,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  web-deploy:
-    name: Build & Upload
+  build:
+    name: Build Website
     runs-on: ubuntu-latest
     steps:
     - name: Get latest code
@@ -32,15 +32,37 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
-    # https://github.com/marketplace/actions/sftp-upload
-    - name: SFTP Upload
-      uses: Dylan700/sftp-upload-action@latest
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
       with:
-        server: ${{ vars.FTP_SERVER }}
-        username: ${{ vars.FTP_USER }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        uploads: |
-          ./public/ => ./www/stock-api/public/
-          ./src/ => ./www/stock-api/src/
-          ./vendor/ => ./www/stock-api/vendor/
-        # delete: 'true'
+        name: Website
+        path: |
+          public
+          src
+          vendor
+      include-hidden-files: true
+
+  deploy:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Website
+
+      # https://github.com/marketplace/actions/sftp-upload
+      - name: SFTP Upload
+        uses: Dylan700/sftp-upload-action@latest
+        with:
+          server: ${{ vars.FTP_SERVER }}
+          username: ${{ vars.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          uploads: |
+            ./public/ => ./www/stock-api/public/
+            ./src/ => ./www/stock-api/src/
+            ./vendor/ => ./www/stock-api/vendor/
+          # delete: 'true'
