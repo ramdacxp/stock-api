@@ -1,6 +1,5 @@
 {
   "name": "ramdacxp/stock-api",
-  "version": "0.0.1",
   "description": "PHP REST API to track stock portfolio",
   "license": "MIT",
   "authors": [
