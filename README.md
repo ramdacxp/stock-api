@@ -1,5 +1,7 @@
 # Stock API
 
+[![Publish Workflow](https://github.com/ramdacxp/stock-api/actions/workflows/publish.yml/badge.svg)](https://github.com/ramdacxp/stock-api/actions/workflows/publish.yml)
+
 PHP REST API to track stock portfolio.
 
 <http://stock-api.schademarmelade.de/>
