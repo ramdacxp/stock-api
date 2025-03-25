@@ -16,7 +16,8 @@ const LOG_ERROR_DETAILS = true;
 $app = AppFactory::create();
 
 $app->get("/", function (Request $request, Response $response, $args) {
-  $response->getBody()->write("Hello world!");
+  $html = file_get_contents(__DIR__ . "/start.html");
+  $response->getBody()->write($html);
   return $response;
 });
 
