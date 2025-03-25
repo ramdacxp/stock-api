@@ -1,4 +1,4 @@
-name: 🚀 Deploy Website
+name: Publish Workflow
 
 on:
   # trigger if pushed to main
@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    name: Build Website
+    name: 🛠️ PHP Build
     runs-on: ubuntu-latest
     steps:
     - name: Get latest code
@@ -43,6 +43,7 @@ jobs:
       include-hidden-files: true
 
   deploy:
+    name: 🌏 FTP Upload
     permissions:
       contents: none
     runs-on: ubuntu-latest
