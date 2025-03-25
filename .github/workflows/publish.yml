@@ -41,5 +41,6 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         uploads: |
           ./public/ => ./www/stock-api/public/
+          ./src/ => ./www/stock-api/src/
           ./vendor/ => ./www/stock-api/vendor/
         # delete: 'true'
