@@ -36,11 +36,11 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Website
+        include-hidden-files: true
         path: |
           public
           src
           vendor
-      include-hidden-files: true
 
   deploy:
     name: 🌏 FTP Upload
