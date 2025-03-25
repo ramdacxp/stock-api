@@ -1,0 +1,42 @@
+name: 🚀 Deploy Website
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  web-deploy:
+    name: Build & Upload
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get latest code
+      uses: actions/checkout@v4
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    # https://github.com/marketplace/actions/sftp-upload
+    - name: SFTP Upload
+      uses: Dylan700/sftp-upload-action@latest
+      with:
+        server: ${{ vars.FTP_SERVER }}
+        username: ${{ vars.FTP_USER }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        uploads: |
+          ./public/ => ./www/stock-api/public/
+          ./vendor/ => ./www/stock-api/vendor/
+        # delete: 'true'
