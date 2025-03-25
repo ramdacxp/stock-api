@@ -1,0 +1,28 @@
+{
+  "name": "ramdacxp/stock-api",
+  "version": "0.0.1",
+  "description": "PHP REST API to track stock portfolio",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Michael Hoser",
+      "homepage": "https://github.com/ramdacxp/"
+    }
+  ],
+  "require": {
+    "slim/psr7": "^1.7",
+    "slim/slim": "^4.14"
+  },
+  "config": {
+    "process-timeout": 0,
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "scripts": {
+    "start": "php -S localhost:8080 -t public"
+  }
+}
