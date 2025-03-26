@@ -2,11 +2,20 @@
 
 namespace App\Controllers;
 
+use App\Services\Database;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class StocksController
 {
+  private Database $db;
+
+  public function __construct(Database $db)
+  {
+    $this->db = $db;
+    // print_r($db->get());
+  }
+
   // public function __invoke(Request $request, Response $response, array $args): Response
 
   // GET /stocks
@@ -45,5 +54,4 @@ class StocksController
       ->withHeader('Content-Type', 'application/json')
       ->withStatus(200);
   }
-
 }
