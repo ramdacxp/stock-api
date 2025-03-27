@@ -6,8 +6,8 @@ return [
   // Prod/Dev install
   "isProduction" => false,
 
-  // database settings
-  "db.host" => "localhost",
+  // PDO database settings
+  "db.config" => "mysql:host=localhost;dbname=stocks",
   "db.user" => "root",
   "db.password" => ""
 ];
