@@ -21,19 +21,25 @@ class StocksController
   // GET /stocks
   public function list(Request $request, Response $response, array $args): Response
   {
-    // $data = ["MSFT", "APPL", "ALPH"];
-    $data = $this->db->query();
+    $stocks = $this->db->getAllStocks();
+
+    // return as: isin => name
+    $data = [];
+    foreach ($stocks as $record) {
+      $data[$record["isin"]] = $record["name"];
+    }
     return $this->jsonResponse($response, $data);
   }
 
   // GET /stocks/{id}
   public function get(Request $request, Response $response, array $args): Response
   {
-    $id = $args['id'] ?? -1;
-    if ($id == -1) {
-      return $this->errorResponse($response, "Parameter 'id' not given", 501);
+    $isin = $args["isin"] ?? "";
+    if (empty($isin)) {
+      return $this->errorResponse($response, "Parameter 'isin' not given", 501);
     } else {
-      $data = array('name' => 'Rob', 'id' => $id);
+      // $data = $this->dsin->addHistory($id, 123);
+      $data = $this->db->getLatestHistory($isin);
       return $this->jsonResponse($response, $data);
     }
   }
