@@ -1,0 +1,3 @@
+{
+  "php.validate.executablePath": "../php-devenv/bin/php/php.exe"
+}
