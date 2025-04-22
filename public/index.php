@@ -35,6 +35,8 @@ $app->get("/", function (Request $request, Response $response, $args) {
 
 $app->get("/stocks", [StocksController::class, "list"]);
 $app->get("/stocks/{isin}", [StocksController::class, "get"]);
+$app->get("/stocks/{isin}/{limit}", [StocksController::class, "get"]);
+$app->get("/query/{isin}", [StocksController::class, "query"]);
 
 $app->addRoutingMiddleware();
 $errorMiddleware = $app->addErrorMiddleware(DISPLAY_ERROR_DETAILS, LOG_ERRORS, LOG_ERROR_DETAILS);

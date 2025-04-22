@@ -3,16 +3,19 @@
 namespace App\Controllers;
 
 use App\Services\Database;
+use App\Services\Downloader;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class StocksController
 {
   private Database $db;
+  private Downloader $downloader;
 
-  public function __construct(Database $db)
+  public function __construct(Database $db, Downloader $downloader)
   {
     $this->db = $db;
+    $this->downloader = $downloader;
     // print_r($db->get());
   }
 
@@ -32,15 +35,43 @@ class StocksController
   }
 
   // GET /stocks/{id}
+  // GET /stocks/{id}/{limit}
   public function get(Request $request, Response $response, array $args): Response
+  {
+    $isin = $args["isin"] ?? "";
+    $limit = max(1, $args["limit"] ?? 1);
+
+    if (empty($isin)) {
+      return $this->errorResponse($response, "Parameter 'isin' not given", 501);
+    } else {
+      // $data = $this->dsin->addHistory($id, 123);
+      $data = $this->db->getLatestHistory($isin, $limit);
+      return $this->jsonResponse($response, $data);
+    }
+  }
+
+  public function query(Request $request, Response $response, array $args): Response
   {
     $isin = $args["isin"] ?? "";
     if (empty($isin)) {
       return $this->errorResponse($response, "Parameter 'isin' not given", 501);
     } else {
-      // $data = $this->dsin->addHistory($id, 123);
-      $data = $this->db->getLatestHistory($isin);
-      return $this->jsonResponse($response, $data);
+
+      // dwonload the data from the Diba API
+      $data = $this->downloader->downloadStock($isin);
+
+      // create new stocks entry?
+      $stockId = $this->db->getStockId($isin);
+      if ($stockId == -1) {
+        $stockId = $this->db->addStocks($data["isin"], $data["name"]);
+      }
+
+      if ($stockId == -1) {
+        return $this->errorResponse($response, "Could not download data for given isin", 501);
+      } else {
+        $newRecord = $this->db->addHistory($stockId, $data["price"]);
+        return $this->jsonResponse($response, $newRecord);
+      }
     }
   }
 

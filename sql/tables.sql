@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ref` int(11) NOT NULL,
   `ts` datetime NOT NULL DEFAULT current_timestamp(),
-  `price` int(11) NOT NULL,
+  `price` float NOT NULL,
   PRIMARY KEY (`id`),
   KEY `RefStocksId` (`ref`)
 ) AUTO_INCREMENT=7;
@@ -28,9 +28,9 @@ ALTER TABLE `history`
 
 -- Sample Data
 INSERT INTO `history` (`id`, `ref`, `ts`, `price`) VALUES
-(1, 1, '2025-03-03 07:48:00', 1),
+(1, 1, '2025-03-03 07:48:00', 1.5),
 (2, 1, '2025-03-03 08:48:00', 2),
-(3, 1, '2025-03-03 09:48:15', 3),
+(3, 1, '2025-03-03 09:48:15', 3.75),
 (4, 1, '2025-03-04 07:48:15', 0),
-(5, 1, '2025-03-04 08:48:30', 5),
-(6, 1, '2025-03-04 09:48:30', 7);
+(5, 1, '2025-03-04 08:48:30', 5.55),
+(6, 1, '2025-03-04 09:48:30', 7.01);

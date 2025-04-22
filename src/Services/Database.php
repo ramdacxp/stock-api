@@ -47,8 +47,11 @@ class Database
     return $stocks;
   }
 
-  public function getLatestHistory(string $isin): array
+  public function getLatestHistory(string $isin, int $limit = 1): array
   {
+    // PDO does not support placeholder for LIMIT; validate it here!
+    $limit = max(1, $limit);
+
     $this->ensureConnection();
 
     $stmt = $this->pdo->prepare("
@@ -57,19 +60,30 @@ class Database
         history.ts,
         history.price,
         DATE_FORMAT(history.ts, '%Y-%m-%dT%H:%i:%s') AS time
-      FROM history
-      INNER JOIN stocks ON history.ref = stocks.id
-      WHERE stocks.isin = :isin
-      ORDER BY history.ts DESC
-      LIMIT 1
+       FROM history
+        INNER JOIN stocks ON history.ref = stocks.id
+        WHERE stocks.isin = :isin
+        ORDER BY history.ts DESC
+        LIMIT $limit
     ");
-    $stmt->execute([':isin' => $isin]);
+    $stmt->execute([":isin" => $isin]);
 
-    $latestHistory = $stmt->fetch();
+    $latestHistory = $limit == 1 ? $stmt->fetch() : $stmt->fetchAll();
     return $latestHistory ?: [];
   }
 
-  public function addHistory(int $stockId, int $price): array
+  public function getStockId(string $isin): int
+  {
+    $this->ensureConnection();
+
+    $stmt = $this->pdo->prepare("SELECT id FROM stocks WHERE stocks.isin = :isin");
+    $stmt->execute([":isin" => $isin]);
+
+    $data = $stmt->fetch();
+    return $data["id"] ?? -1;
+  }
+
+  public function addHistory(int $stockId, float $price): array
   {
     $this->ensureConnection();
 
@@ -85,4 +99,18 @@ class Database
 
     return $data;
   }
+
+  public function addStocks(string $isin, string $name): int
+  {
+    $this->ensureConnection();
+
+    $stmt = $this->pdo->prepare("INSERT INTO stocks (isin, name) VALUES (:isin, :name)");
+    $stmt->execute([
+      ":isin" => $isin,
+      ":name" => $name
+    ]);
+
+    return $this->pdo->lastInsertId();
+  }
+
 }

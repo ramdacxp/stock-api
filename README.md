@@ -25,3 +25,7 @@ Open website locally at <http://localhost:8080/>.
 * [Slim](https://www.slimframework.com/) - PHP Micro Framework
   * [slimphp/Slim-Skeleton](https://github.com/slimphp/Slim-Skeleton) - Slim v4 App Skeleton
   * [PHP-DI](https://php-di.org/doc/frameworks/slim.html)
+
+* Diba API URL Example:
+  <https://component-api.wertpapiere.ing.de/api/v1/components/instrumentheader/US5949181045>
+  
