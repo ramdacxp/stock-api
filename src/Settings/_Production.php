@@ -8,7 +8,7 @@ return [
   "isProduction" => true,
 
   // PDO database settings
-  "db.config" => "mysql:host=myHost;dbname=stocks",
+  "db.config" => "mysql:host=myHost;dbname=stocks;charset=utf8mb4",
   "db.user" => "myUser",
   "db.password" => ""
 ];

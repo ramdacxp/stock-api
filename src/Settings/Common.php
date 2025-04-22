@@ -4,9 +4,9 @@ return [
   \App\Services\Database::class => DI\autowire()->constructorParameter(
     "settings",
     [
-      // "host" => DI\get('db.host'),
-      "user" => DI\get('db.user'),
-      "password" => DI\get('db.password')
+      "config" => DI\get("db.config"),
+      "user" => DI\get("db.user"),
+      "password" => DI\get("db.password"),
     ]
   )
 ];

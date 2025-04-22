@@ -21,7 +21,8 @@ class StocksController
   // GET /stocks
   public function list(Request $request, Response $response, array $args): Response
   {
-    $data = ["MSFT", "APPL", "ALPH"];
+    // $data = ["MSFT", "APPL", "ALPH"];
+    $data = $this->db->query();
     return $this->jsonResponse($response, $data);
   }
 
