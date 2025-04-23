@@ -3,9 +3,9 @@
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
-use DI\ContainerBuilder;
 
 use App\Controllers\StocksController;
+use App\DI\ExtendedContainerBuilder;
 
 require __DIR__ . "/../vendor/autoload.php";
 
@@ -15,12 +15,9 @@ const LOG_ERRORS = true;
 const LOG_ERROR_DETAILS = true;
 
 // configure DI
-$builder = new ContainerBuilder();
-$settingsFolder = implode(DIRECTORY_SEPARATOR, [dirname(__DIR__), "src", "Settings"]);
-$prodSettings = $settingsFolder . DIRECTORY_SEPARATOR . "Production.php";
-$devSettings = $settingsFolder . DIRECTORY_SEPARATOR . "Development.php";
-$builder->addDefinitions(file_exists($prodSettings) ? $prodSettings : $devSettings);
-$builder->addDefinitions($settingsFolder . DIRECTORY_SEPARATOR . "Common.php");
+$builder = new ExtendedContainerBuilder();
+$builder->addDefinitionFromFileWithFallback("Production.php", "Development.php");
+$builder->addDefinitionFromFile("Common.php");
 
 // create app instance
 $container = $builder->build();
@@ -39,6 +36,7 @@ $app->get("/stocks/{isin}/{limit}", [StocksController::class, "get"]);
 $app->get("/query/{isin}", [StocksController::class, "query"]);
 
 $app->addRoutingMiddleware();
-$errorMiddleware = $app->addErrorMiddleware(DISPLAY_ERROR_DETAILS, LOG_ERRORS, LOG_ERROR_DETAILS);
+$app->add((new Middlewares\JsonExceptionHandler())->includeTrace(false)->jsonOptions(JSON_PRETTY_PRINT));
+// $errorMiddleware = $app->addErrorMiddleware(DISPLAY_ERROR_DETAILS, LOG_ERRORS, LOG_ERROR_DETAILS);
 
 $app->run();
