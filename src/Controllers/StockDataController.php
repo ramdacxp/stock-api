@@ -44,6 +44,18 @@ class StockDataController extends JsonController
     return $this->generateJsonResponse($response, $data);
   }
 
+  // GET /daily/{isin}
+  // ARGUMENT: limit
+  public function getDailyStockDetails(Request $request, Response $response, array $args): Response
+  {
+    $isin = $args["isin"] ?? "";
+    if (empty($isin)) return $this->generateArgumentErrorResponse($response, "isin");
+
+    $limit = max(1, (int) $args["limit"] ?? 1);
+    $data = $this->db->getDailyStockDetails($isin, $limit);
+    return $this->generateJsonResponse($response, $data);
+  }
+
   // GET /query/{isin}
   public function addStock(Request $request, Response $response, array $args): Response
   {

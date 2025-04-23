@@ -27,12 +27,13 @@ $app->get("/", StaticFileController::class)->setArgument("file", "Start.html");
 // $app->get("/stocks/{isin}/{limit}", [StocksController::class, "get"]);
 // $app->get("/query/{isin}", [StocksController::class, "query"]);
 
+$app->get("/query/{isin}", [StockDataController::class, "addStock"]);
+
 $app->get("/history", [StockDataController::class, "getAllStocks"]);
 $app->get("/history/{isin}", [StockDataController::class, "getStockDetails"])->setArgument("limit", 1);
 $app->get("/history/{isin}/{limit}", [StockDataController::class, "getStockDetails"]);
-$app->get("/query/{isin}", [StockDataController::class, "addStock"]);
-
-
+$app->get("/daily/{isin}", [StockDataController::class, "getDailyStockDetails"])->setArgument("limit", 1);
+$app->get("/daily/{isin}/{limit}", [StockDataController::class, "getDailyStockDetails"]);
 
 // Add routing middleware AFTER adding the router
 $app->addRoutingMiddleware();

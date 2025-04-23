@@ -34,6 +34,26 @@ class StockDataDatabase extends Database
     return $data;
   }
 
+  public function getDailyStockDetails(string $isin, int $limit = 1): array
+  {
+    $this->ensureConnection();
+
+    // TODO: Add latest (!) price of the day as well
+    $stmt = $this->pdo->prepare("SELECT
+        DATE(`priceChange`) AS `day`,
+        `isin`, `name`, `currency`
+      FROM `stockdata`
+      WHERE
+        isin = :isin AND
+        id in (SELECT max(id) FROM `stockdata` GROUP BY DATE(`priceChange`))
+      ORDER BY id DESC
+      LIMIT " . $limit);
+
+    $stmt->execute([":isin" => $isin]);
+    $data = $stmt->fetchAll();
+
+    return $data;
+  }
 
   public function addStock(string $name, string $isin, float $price, string $currency, string $priceChange): array
   {
