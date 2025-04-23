@@ -6,19 +6,14 @@ use \PDO;
 
 class Database
 {
-  private array $settings;
-  private PDO $pdo;
+  protected array $settings;
+  protected PDO $pdo;
 
   // settings as defines in Common.php (array with: config, user, password)
   public function __construct(array $settings)
   {
     $this->settings = $settings;
   }
-
-  // public function get(string $key = "")
-  // {
-  //   return (empty($key)) ? $this->settings : $this->settings[$key];
-  // }
 
   public function connect()
   {

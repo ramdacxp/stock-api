@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\StaticFileController;
+use App\Controllers\StockDataController;
 use Slim\Factory\AppFactory;
 
 use App\Controllers\StocksController;
@@ -21,10 +22,17 @@ $app = AppFactory::create();
 // Add all the routes
 $app->get("/", StaticFileController::class)->setArgument("file", "Start.html");
 
-$app->get("/stocks", [StocksController::class, "list"]);
-$app->get("/stocks/{isin}", [StocksController::class, "get"]);
-$app->get("/stocks/{isin}/{limit}", [StocksController::class, "get"]);
-$app->get("/query/{isin}", [StocksController::class, "query"]);
+// $app->get("/stocks", [StocksController::class, "list"]);
+// $app->get("/stocks/{isin}", [StocksController::class, "get"]);
+// $app->get("/stocks/{isin}/{limit}", [StocksController::class, "get"]);
+// $app->get("/query/{isin}", [StocksController::class, "query"]);
+
+$app->get("/history", [StockDataController::class, "getAllStocks"]);
+$app->get("/history/{isin}", [StockDataController::class, "getStockDetails"])->setArgument("limit", 1);
+$app->get("/history/{isin}/{limit}", [StockDataController::class, "getStockDetails"]);
+$app->get("/query/{isin}", [StockDataController::class, "addStock"]);
+
+
 
 // Add routing middleware AFTER adding the router
 $app->addRoutingMiddleware();

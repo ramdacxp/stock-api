@@ -30,9 +30,15 @@
 <body>
   <h1>Welcome to the Stock API</h1>
   <p>This API provides access to stock information.</p>
+
+  <h2>Current data</h2>
   <ul>
-    <li>List of stocks available: <a href="stocks">GET /stocks</a></li>
-    <li>Details of selected stock: <a href="stocks/xxx">GET /stocks/{id}</a></li>
+    <li>Get current data for given ISIN: <a href="query/US5949181045">GET /query/US5949181045</a> (Example MS)</li>
+  </ul>
+
+  <h2>Historic data</h2>
+  <ul>
+    <li>List of stocks in history db (ISIN, name): <a href="history">GET /history</a></li>
   </ul>
 </body>
 
