@@ -2,10 +2,12 @@
 
 namespace App\Services;
 
+use \PDO;
+
 class Database
 {
   private array $settings;
-  private \PDO $pdo;
+  private PDO $pdo;
 
   // settings as defines in Common.php (array with: config, user, password)
   public function __construct(array $settings)
@@ -20,13 +22,13 @@ class Database
 
   public function connect()
   {
-    $this->pdo = new \PDO(
+    $this->pdo = new PDO(
       $this->settings["config"],
       $this->settings["user"],
       $this->settings["password"],
       [
-        \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-        \PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
       ]
     );
   }

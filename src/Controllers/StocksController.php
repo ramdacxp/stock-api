@@ -77,19 +77,19 @@ class StocksController
 
   private function errorResponse(Response $response, string $message, int $statusCode = 501): Response
   {
-    $error = json_encode(array('error' => $message, 'code' => $statusCode));
+    $error = json_encode(array("error" => $message, "code" => $statusCode));
     $response->getBody()->write($error);
 
     return $response
-      ->withHeader('Content-Type', 'application/json')
+      ->withHeader("Content-Type", "application/json")
       ->withStatus($statusCode);
   }
 
   private function jsonResponse(Response $response, array $data): Response
   {
-    $response->getBody()->write(json_encode($data));
+    $response->getBody()->write(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     return $response
-      ->withHeader('Content-Type', 'application/json')
+      ->withHeader("Content-Type", "application/json")
       ->withStatus(200);
   }
 }
