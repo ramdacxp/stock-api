@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `stockdata` (
   `name` tinytext NOT NULL,
   `isin` tinytext NOT NULL,
   `price` float NOT NULL,
+  `currency` tinytext DEFAULT NULL,
   `priceChange` datetime NOT NULL DEFAULT current_timestamp(),
   `created` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)

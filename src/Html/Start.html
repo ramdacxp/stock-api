@@ -19,10 +19,18 @@
 
     p,
     ul,
-    li,
+    li {
+      color: #666;
+    }
+
     a,
     a:visited {
-      color: #666;
+      color: #006;
+    }
+
+    code {
+      background-color: #ccc;
+      padding: 2px 4px;
     }
   </style>
 </head>
@@ -33,13 +41,32 @@
 
   <h2>Current data</h2>
   <ul>
-    <li>Get current data for given ISIN: <a href="query/US5949181045">GET /query/US5949181045</a> (Example MS)</li>
+    <li>
+      <a href="query/US5949181045">GET /query/{ISIN}</a>
+      - get current data for given ISIN <sup>2)</sup>
+    </li>
   </ul>
 
   <h2>Historic data</h2>
   <ul>
-    <li>List of stocks in history db (ISIN, name): <a href="history">GET /history</a></li>
+    <li>
+      <a href="history">GET /history</a>
+      - list ISIN and name of stocks in history db
+    </li>
+    <li>
+      <a href="history/US5949181045">GET /history/{ISIN}</a>
+      - latest record of given <code>{ISIN}</code> <sup>2)</sup>
+    </li>
+    <li>
+      <a href="history/US5949181045/5">GET /history/{ISIN}/{COUNT}</a>
+      - latest <code>{COUNT}</code> records of given <code>{ISIN}</code> <sup>2)</sup>
+    </li>
   </ul>
 </body>
+
+<p>
+  <sup>2)</sup>
+  Using ISIN <code>US5949181045</code> (Microsoft Corp.) as an example.
+</p>
 
 </html>
