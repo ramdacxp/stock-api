@@ -26,6 +26,8 @@ Open website locally at <http://localhost:8080/>.
   * [slimphp/Slim-Skeleton](https://github.com/slimphp/Slim-Skeleton) - Slim v4 App Skeleton
   * [PHP-DI](https://php-di.org/doc/frameworks/slim.html)
 
+* [Awesome PSR-15 Middlewares](https://github.com/middlewares/awesome-psr15-middlewares?tab=readme-ov-file)
+
 * Diba API URL Example:
   <https://component-api.wertpapiere.ing.de/api/v1/components/instrumentheader/US5949181045>
   
