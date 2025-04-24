@@ -41,7 +41,7 @@ class StockDataDatabase extends Database
     // TODO: Add latest (!) price of the day as well
     $stmt = $this->pdo->prepare("SELECT
         DATE(`priceChange`) AS `day`,
-        `isin`, `name`, `currency`
+        `isin`, `name`, `price`, `currency`
       FROM `stockdata`
       WHERE
         isin = :isin AND
