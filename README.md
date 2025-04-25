@@ -72,3 +72,23 @@ composer start
     "pushSymbol": "X000ADB0200951692"
   }
   ```
+
+### SQL
+
+Min, Max and last value per day:
+
+```sql
+SELECT * FROM (
+  SELECT 
+    name, 
+    isin,
+    DATE(priceChange) AS `day`,
+    MIN(price) OVER (PARTITION BY name, isin, day) AS `min`,
+    MAX(price) OVER (PARTITION BY name, isin, day) AS `max`,
+    FIRST_VALUE(price) OVER (PARTITION BY name, isin, day ORDER BY priceChange DESC) AS `last`,
+    priceChange AS `lastChange`
+  FROM stockdata
+) as temp
+-- WHERE isin = 'dummyisi'
+GROUP BY name, isin, day;
+```
